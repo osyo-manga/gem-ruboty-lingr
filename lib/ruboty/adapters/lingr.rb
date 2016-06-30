@@ -1,9 +1,6 @@
-require "pp"
 require "rack"
 require 'open-uri'
-require "logger"
-
-$stdout.sync = true
+require "json"
 
 
 module Ruboty module Lingr
@@ -32,13 +29,11 @@ module Ruboty module Lingr
 			query_string = param.map {|e|
 				e.map {|s| ERB::Util.url_encode s.to_s }.join '='
 			}.join '&'
-			p query_string
 			open "http://lingr.com/api/room/say?#{query_string}"
 		end
 	end
 end end
 
-require "json"
 
 module Ruboty module Adapters
 	class Lingr < Base
