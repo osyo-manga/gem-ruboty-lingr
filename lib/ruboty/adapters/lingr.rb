@@ -1,9 +1,16 @@
+require "pp"
 require "rack"
 require 'open-uri'
+require "logger"
 
+$stdout.sync = true
 
 
 module Ruboty module Lingr
+	def self.log
+		
+	end
+
 	class Client
 		attr_accessor :bot_name, :bot_key
 
@@ -40,16 +47,23 @@ module Ruboty module Adapters
 		env :RUBOTY_LINGR_ENDPOINT, "Lingr bot endpoint(Callback URL). (e.g. '/ruboty/lingr'"
 
 		def run
+			Ruboty.logger.info "=== Linger#{run} ==="
 			start_server
 		end
 
 		def say msg
+			Ruboty.logger.info "=== say ==="
+			Ruboty.logger.info "message : #{msg[:body]}"
+
 			client.post(msg[:original][:message]["room"], msg[:body])
 		end
 
 		private
 		def start_server
 			Rack::Handler::WEBrick.run(Proc.new{ |evn|
+				Ruboty.logger.info "=== ACCESS ==="
+				Ruboty.logger.debug "env : #{env}"
+
 				request = Rack::Request.new(evn)
 				result = on_post request
 				[200, {"Content-Type" => "text/plain"}, [result]]
@@ -57,8 +71,13 @@ module Ruboty module Adapters
 		end
 
 		def on_post req
+			Ruboty.logger.info "=== POST ==="
+			Ruboty.logger.debug "request : #{req}"
+
 			return "OK" unless req.post? && req.fullpath == ENV["RUBOTY_LINGR_ENDPOINT"]
 			params = JSON.parse req.body.read
+
+			Ruboty.logger.debug "POST params : #{req}"
 
 			return "" unless params.has_key? "events" && params["events"].kind_of? Array
 
@@ -69,6 +88,7 @@ module Ruboty module Adapters
 		end
 
 		def on_message msg
+			Ruboty.logger.debug "message : #{msg}"
 			Thread.start {
 				robot.receive(body: msg["text"], message: msg)
 			}
