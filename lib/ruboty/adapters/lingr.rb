@@ -73,7 +73,7 @@ module Ruboty module Adapters
 			return "OK" unless req.post? && req.fullpath == ENV["RUBOTY_LINGR_ENDPOINT"]
 
 			params = JSON.parse req.body.read
-			Ruboty.logger.debug "POST params : #{req}"
+			Ruboty.logger.debug "POST params : #{params}"
 
 			return "" unless params.has_key?("events") && params["events"].kind_of?(Array)
 
