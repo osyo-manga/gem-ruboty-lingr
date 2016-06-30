@@ -38,16 +38,18 @@ module Ruboty module Adapters
 		env :RUBOTY_LINGR_ENDPOINT, "Lingr bot endpoint(Callback URL). (e.g. '/ruboty/lingr'"
 
 		def run
-			Ruboty.logger.info "=== Linger#run ==="
+			Ruboty.logger.info "======= Linger#run ======="
 			start_server
 		end
 
 		def say msg
-			Ruboty.logger.info "=== Linger#say ==="
+			Ruboty.logger.info "======= Linger#say ======="
 			room = msg[:original][:room]
 			text = msg[:body]
-			Ruboty.logger.debug "room : #{room}"
-			Ruboty.logger.debug "text : #{text}"
+			Ruboty.logger.info "room : #{room}"
+			Ruboty.logger.info "text : #{text}"
+
+			Ruboty.logger.debug "msg : #{msg}"
 
 			client.post(room, text)
 		end
@@ -55,7 +57,7 @@ module Ruboty module Adapters
 		private
 		def start_server
 			Rack::Handler::WEBrick.run(Proc.new{ |evn|
-				Ruboty.logger.info "=== Linger access ==="
+				Ruboty.logger.info "======= Linger access ======="
 				Ruboty.logger.debug "evn : #{evn}"
 
 				request = Rack::Request.new(evn)
@@ -65,12 +67,12 @@ module Ruboty module Adapters
 		end
 
 		def on_post req
-			Ruboty.logger.info "=== Linger#on_post ==="
+			Ruboty.logger.info "======= Linger#on_post ======="
 			Ruboty.logger.debug "request : #{req}"
 
 			return "OK" unless req.post? && req.fullpath == ENV["RUBOTY_LINGR_ENDPOINT"]
-			params = JSON.parse req.body.read
 
+			params = JSON.parse req.body.read
 			Ruboty.logger.debug "POST params : #{req}"
 
 			return "" unless params.has_key?("events") && params["events"].kind_of?(Array)
@@ -82,7 +84,7 @@ module Ruboty module Adapters
 		end
 
 		def on_message msg
-			Ruboty.logger.info "=== Linger#on_message ==="
+			Ruboty.logger.info "======= Linger#on_message ======="
 			Ruboty.logger.debug "message : #{msg}"
 
 			Thread.start {
