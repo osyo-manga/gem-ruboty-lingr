@@ -44,7 +44,7 @@ module Ruboty module Adapters
 
 		def say msg
 			Ruboty.logger.info "=== Linger#say ==="
-			room = msg[:original][:message]["room"]
+			room = msg[:room]
 			text = msg[:body]
 			Ruboty.logger.debug "room : #{room}"
 			Ruboty.logger.debug "text : #{text}"
@@ -86,7 +86,7 @@ module Ruboty module Adapters
 			Ruboty.logger.debug "message : #{msg}"
 
 			Thread.start {
-				robot.receive(body: msg["text"], message: msg)
+				robot.receive(body: msg["text"], room: msg["room"], message: msg)
 			}
 		end
 
