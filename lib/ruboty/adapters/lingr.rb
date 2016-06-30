@@ -4,10 +4,6 @@ require "json"
 
 
 module Ruboty module Lingr
-	def self.log
-		
-	end
-
 	class Client
 		attr_accessor :bot_name, :bot_key
 
