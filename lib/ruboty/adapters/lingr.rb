@@ -79,7 +79,7 @@ module Ruboty module Adapters
 
 			Ruboty.logger.debug "POST params : #{req}"
 
-			return "" unless params.has_key? "events" && params["events"].kind_of? Array
+			return "" unless params.has_key?("events") && params["events"].kind_of?(Array)
 
 			params["events"].select {|e| e['message'] }.map {|e|
 				on_message e["message"]
