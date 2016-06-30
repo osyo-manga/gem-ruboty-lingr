@@ -74,7 +74,7 @@ module Ruboty module Adapters
 			params = JSON.parse req.body.read
 			pp params
 
-			return "" unless params.has_key? "events"
+			return "" unless params.has_key? "events" && params["events"].kind_of? Array
 
 			params["events"].select {|e| e['message'] }.map {|e|
 				on_message e["message"]
