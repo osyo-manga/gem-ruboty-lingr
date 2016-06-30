@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["manga_osyo"]
   spec.email         = ["manga.osyo@gmail.com"]
 
-  spec.summary       = %q{Lingr adapter for Ruboty}
-  spec.description   = %q{Lingr adapter for Ruboty}
-  spec.homepage      = "http"
+  spec.summary       = %q{Lingr adapter for Ruboty.}
+  spec.description   = %q{Lingr adapter for Ruboty.}
+  spec.homepage      = "https://github.com/osyo-manga/gem-ruboty-lingr"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
