@@ -1,8 +1,6 @@
-require "pp"
 require "rack"
 require 'open-uri'
 
-$stdout.sync = true
 
 
 module Ruboty module Lingr
@@ -17,11 +15,6 @@ module Ruboty module Lingr
 		end
 
 		def post room, text
-			p "=== Client#post ==="
-			p bot_key
-			p room
-			p bot_name
-			p text
 			param = {
 				room: room,
 				bot:  bot_name,
@@ -47,21 +40,16 @@ module Ruboty module Adapters
 		env :RUBOTY_LINGR_ENDPOINT, "Lingr bot endpoint(Callback URL). (e.g. '/ruboty/lingr'"
 
 		def run
-			p "=== run ==="
 			start_server
 		end
 
 		def say msg
-			p "=== say ==="
-			p msg[:body]
 			client.post(msg[:original][:message]["room"], msg[:body])
 		end
 
 		private
 		def start_server
 			Rack::Handler::WEBrick.run(Proc.new{ |evn|
-				pp "=== ACCESS ==="
-				pp evn
 				request = Rack::Request.new(evn)
 				result = on_post request
 				[200, {"Content-Type" => "text/plain"}, [result]]
@@ -70,9 +58,7 @@ module Ruboty module Adapters
 
 		def on_post req
 			return "OK" unless req.post? && req.fullpath == ENV["RUBOTY_LINGR_ENDPOINT"]
-			pp "=== POST ==="
 			params = JSON.parse req.body.read
-			pp params
 
 			return "" unless params.has_key? "events" && params["events"].kind_of? Array
 
