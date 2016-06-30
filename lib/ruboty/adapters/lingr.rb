@@ -62,7 +62,7 @@ module Ruboty module Adapters
 		def start_server
 			Rack::Handler::WEBrick.run(Proc.new{ |evn|
 				Ruboty.logger.info "=== Linger access ==="
-				Ruboty.logger.debug "env : #{env}"
+				Ruboty.logger.debug "evn : #{evn}"
 
 				request = Rack::Request.new(evn)
 				result = on_post request
