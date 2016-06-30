@@ -44,9 +44,12 @@ module Ruboty module Adapters
 
 		def say msg
 			Ruboty.logger.info "=== Linger#say ==="
-			Ruboty.logger.info "message : #{msg[:body]}"
+			room = msg[:original][:message]["room"]
+			text = msg[:body]
+			Ruboty.logger.debug "room : #{room}"
+			Ruboty.logger.debug "text : #{text}"
 
-			client.post(msg[:original][:message]["room"], msg[:body])
+			client.post(room, text)
 		end
 
 		private
