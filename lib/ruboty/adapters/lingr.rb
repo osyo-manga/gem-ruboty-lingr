@@ -56,14 +56,14 @@ module Ruboty module Adapters
 
 		private
 		def start_server
-			Rack::Handler::WEBrick.run(Proc.new{ |evn|
+			Rack::Handler::WEBrick.run(Proc.new{ |env|
 				Ruboty.logger.info "======= Lingr access ======="
-				Ruboty.logger.debug "evn : #{evn}"
+				Ruboty.logger.debug "env : #{env}"
 
-				request = Rack::Request.new(evn)
+				request = Rack::Request.new(env)
 				result = on_post request
 				[200, {"Content-Type" => "text/plain"}, [result]]
-			}, { Port: ENV["PORT"] })
+			}, { Port: ENV["PORT"] || "8080" })
 		end
 
 		def on_post req
