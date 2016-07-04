@@ -23,3 +23,13 @@ LOG_LEVEL             - Use Ruboty logger. If LOG_LEVEL=0, output debug log.
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/osyo-manga/gem-ruboty-lingr.
 
+## Release note
+
+#### 0.1.1
+  
+  * Fix dependency rubygems.
+
+#### 0.1.0
+  
+  * Release!
+
