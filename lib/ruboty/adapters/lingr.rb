@@ -44,14 +44,15 @@ module Ruboty module Adapters
 
 		def say msg
 			Ruboty.logger.info "======= Lingr#say ======="
-			room = msg[:original][:room]
-			text = msg[:body]
-			Ruboty.logger.info "room : #{room}"
-			Ruboty.logger.info "text : #{text}"
-
 			Ruboty.logger.debug "msg : #{msg}"
 
-			client.post(room, text)
+			text = msg[:body]
+			to   = msg[:to]
+			Ruboty.logger.info "body : #{text}"
+			Ruboty.logger.info "to   : #{to}"
+
+
+			client.post(to, text)
 		end
 
 		private
@@ -88,7 +89,13 @@ module Ruboty module Adapters
 			Ruboty.logger.debug "message : #{msg}"
 
 			Thread.start {
-				robot.receive(body: msg["text"], room: msg["room"], message: msg)
+				robot.receive(
+					body: msg["text"],
+					from: msg["room"],
+					from_name: msg["speaker_id"],
+					to:   msg["room"],
+					message: msg
+				)
 			}
 		end
 

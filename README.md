@@ -25,6 +25,10 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/osyo-m
 
 ## Release note
 
+#### 0.2.0
+  
+  * Add `from`, `from_name`, `to` to `message`.
+
 #### 0.1.1
   
   * Fix dependency rubygems.
